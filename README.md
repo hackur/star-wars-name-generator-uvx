@@ -1,8 +1,49 @@
 # ⭐ Star Wars Name Generator
 
+[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Package Manager](https://img.shields.io/badge/uv-compatible-green.svg)](https://docs.astral.sh/uv/)
+[![Status](https://img.shields.io/badge/status-operational-brightgreen.svg)](https://github.com/anthropics/starwars-namegen)
+[![Built with Click](https://img.shields.io/badge/CLI-Click-blue.svg)](https://click.palletsprojects.com/)
+[![Code Style](https://img.shields.io/badge/code%20style-PEP%208-orange.svg)](https://peps.python.org/pep-0008/)
+
 > **DEATH STAR OPERATIONAL PROTOCOL**: A precision tactical weapon system for generating Star Wars-themed nomenclature across all Imperial infrastructure deployments.
 
 A professional CLI tool for generating unique, Star Wars-themed multi-word names for servers, containers, databases, projects, and any resource requiring memorable identification.
+
+## 🎯 Mission Purpose: Preventing the "Obvious-Open-Duct" Vulnerability
+
+**CLASSIFIED IMPERIAL MEMO - SECURITY DIRECTIVE #DS-001**
+
+After extensive post-mortem analysis of Death Star I's catastrophic failure, Imperial Engineering has identified a critical naming vulnerability: **obvious infrastructure nomenclature that telegraphs weaknesses**.
+
+### The Problem
+
+Historical records show that poorly named infrastructure components led to tactical disasters:
+- `obvious-open-duct-007` ❌ **UNACCEPTABLE** - Literally advertising the vulnerability
+- `thermal-exhaust-port-unshielded` ❌ **SECURITY BREACH** - Rebel intelligence loves you
+- `main-reactor-easy-access` ❌ **COURT MARTIAL MATERIAL** - Self-documenting failure
+- `backup-power-no-auth` ❌ **TREASON** - Why not just send the Rebels an invitation?
+
+### The Solution
+
+This name generator ensures your infrastructure uses **tactically sound, memorable, yet non-descriptive nomenclature** that doesn't advertise security vulnerabilities:
+- `stealth-protocol-847` ✅ **APPROVED** - Memorable, unique, gives nothing away
+- `crimson-falcon-a3f` ✅ **EXCELLENT** - Cool name, zero tactical intel leaked
+- `quantum-garrison-2b9` ✅ **COMMENDED** - Good luck reverse-engineering that, Rebels
+
+### Why This Matters for uv Tool Developers
+
+When building packages with **uv** (the modern Python package manager), you need:
+1. **Memorable names** for test deployments, databases, containers
+2. **Unique identifiers** that don't collide across environments
+3. **Professional naming** that doesn't expose your architecture
+4. **Reproducible builds** for CI/CD pipelines (seed support)
+5. **Fast generation** without manual bikeshedding
+
+This tool demonstrates **best practices for uv-based Python packaging** while solving a real problem: generating good names automatically, so your infrastructure doesn't end up with names like `database-with-default-password-prod` or `api-server-no-rate-limiting-01`.
+
+**TL;DR:** Don't let your naming conventions become your downfall. Use this tool to generate names that are memorable but meaningless to adversaries.
 
 ## 🎯 Mission Objectives
 
