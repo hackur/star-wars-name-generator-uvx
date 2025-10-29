@@ -378,62 +378,120 @@ class StarWarsNameGenerator:
     
     def _apply_grammar(self, word_count: int) -> List[str]:
         """
-        Apply tactical grammar rules to generate name components.
+        Apply narrative grammar patterns that tell Star Wars stories.
 
-        Dynamically builds up words until target count is reached.
-        Hyphenated vocabulary words (like "millennium-falcon") are split
-        into components, with each component counting toward the total.
+        Creates storytelling patterns like:
+        - Character actions: "vader-pursued-rebels"
+        - Ship events: "falcon-escaped-empire"
+        - Location events: "hoth-base-evacuated"
+        - Faction actions: "empire-blockaded-naboo"
 
-        Grammar Pattern:
-        - Start with adjectives/nouns for flavor
-        - Add adverbs for variation in longer names
-        - End with past-tense verb for action
-        - Compound words naturally fill multiple slots
+        Randomly selects from multiple narrative patterns for variety.
 
         Args:
             word_count: Target number of words (1-5)
 
         Returns:
-            List of words forming the name (may slightly exceed target due to compounds)
+            List of words forming a narrative name
         """
         words = []
 
-        # Start with a noun for 1-word names
+        # 1-word: Just a noun (character, ship, or location)
         if word_count == 1:
             words.extend(self._get_random_word("noun"))
             return words[:word_count]
 
-        # Build up words dynamically based on target count
-        # Pattern: [adjective(s)] [noun] [adverb (optional)] [verb-past]
-
-        # Add adjective(s)
-        words.extend(self._get_random_word("adjective"))
-
-        # Add noun if we haven't hit the count yet
-        if len(words) < word_count:
-            words.extend(self._get_random_word("noun"))
-
-        # Add adverb for longer names (4-5 words)
-        if len(words) < word_count and word_count >= 4:
-            words.extend(self._get_random_word("adverb"))
-
-        # Always try to end with a verb (if space allows)
-        if len(words) < word_count:
-            verb_parts = self._get_random_word("verb")
-            # For verbs, convert to past tense before splitting
-            # Take first component only to avoid over-extending
-            verb = verb_parts[0]
-            words.append(self._to_past_tense(verb))
-
-        # Trim or pad to target count
-        if len(words) > word_count:
+        # 2-word: Adjective + Noun OR Noun + Verb
+        elif word_count == 2:
+            # 50% chance of descriptive (adjective-noun) vs action (noun-verb)
+            if random.random() < 0.5:
+                # Descriptive: "imperial-fleet"
+                words.extend(self._get_random_word("adjective"))
+                words.extend(self._get_random_word("noun"))
+            else:
+                # Action: "fleet-attacked"
+                words.extend(self._get_random_word("noun"))
+                verb = self._get_random_word("verb")[0]
+                words.append(self._to_past_tense(verb))
             return words[:word_count]
 
-        # If we're still short, add more adjectives
-        while len(words) < word_count:
-            words.extend(self._get_random_word("adjective"))
+        # 3-word: Subject-Verb-Object pattern
+        elif word_count == 3:
+            # Pattern: "vader-pursued-rebels" or "empire-blockaded-naboo"
+            # Subject (may be 1-2 words if compound)
+            subject = self._get_random_word("noun")
+            if len(subject) >= word_count:
+                return subject[:word_count]
+            words.extend(subject)
 
-        return words[:word_count]
+            # Verb (always 1 word after past tense)
+            if len(words) < word_count:
+                verb = self._get_random_word("verb")[0]
+                words.append(self._to_past_tense(verb))
+
+            # Object (fill remaining slots)
+            if len(words) < word_count:
+                obj = self._get_random_word("noun")
+                words.extend(obj)
+
+            return words[:word_count]
+
+        # 4-word: Adjective + Subject + Verb + Object
+        elif word_count == 4:
+            # Pattern: "ancient-empire-conquered-galaxy" or "rebel-fleet-escaped-hoth"
+            # Adjective (1-2 words)
+            adj = self._get_random_word("adjective")
+            if len(adj) >= word_count:
+                return adj[:word_count]
+            words.extend(adj)
+
+            # Subject (fill more slots)
+            if len(words) < word_count:
+                subj = self._get_random_word("noun")
+                words.extend(subj)
+
+            # Verb (1 word)
+            if len(words) < word_count:
+                verb = self._get_random_word("verb")[0]
+                words.append(self._to_past_tense(verb))
+
+            # Object (fill remaining)
+            if len(words) < word_count:
+                obj = self._get_random_word("noun")
+                words.extend(obj)
+
+            return words[:word_count]
+
+        # 5-word: Adverb + Adjective + Subject + Verb + Object
+        else:  # word_count == 5
+            # Pattern: "swiftly-imperial-fleet-blockaded-naboo"
+            # Adverb (1-2 words)
+            adv = self._get_random_word("adverb")
+            if len(adv) >= word_count:
+                return adv[:word_count]
+            words.extend(adv)
+
+            # Adjective (1-2 words)
+            if len(words) < word_count:
+                adj = self._get_random_word("adjective")
+                words.extend(adj)
+
+            # Subject (1-2 words)
+            if len(words) < word_count:
+                subj = self._get_random_word("noun")
+                words.extend(subj)
+
+            # Verb (1 word)
+            if len(words) < word_count:
+                verb = self._get_random_word("verb")[0]
+                words.append(self._to_past_tense(verb))
+
+            # Object (fill remaining)
+            if len(words) < word_count:
+                obj = self._get_random_word("noun")
+                words.extend(obj)
+
+            return words[:word_count]
     
     def _to_past_tense(self, verb: str) -> str:
         """
