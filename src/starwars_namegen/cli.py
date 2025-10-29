@@ -183,81 +183,76 @@ class StarWarsNameGenerator:
     def _generate_suffix(self, suffix_type: str) -> str:
         """
         Generate tactical identifier suffix.
-        
+
         Suffix Protocols:
         - none: No suffix
         - digits: 3-digit number (000-999)
         - hex: 3-character hexadecimal (000-fff)
         - symbol: Random symbol
         - uuid: 6-character hex (UUID-like)
-        
+
         Args:
             suffix_type: Type of suffix to generate
-        
+
         Returns:
-            Generated suffix string (empty if none)
+            Generated suffix string (empty if none, without leading separator)
         """
         if suffix_type == "none":
             return ""
         elif suffix_type == "digits":
-            return f"-{random.randint(0, 999):03d}"
+            return f"{random.randint(0, 999):03d}"
         elif suffix_type == "hex":
-            return f"-{random.randint(0, 4095):03x}"
+            return f"{random.randint(0, 4095):03x}"
         elif suffix_type == "symbol":
-            return f"-{random.choice(self.symbols)}"
+            return f"{random.choice(self.symbols)}"
         elif suffix_type == "uuid":
-            hex_chars = ''.join(random.choices('0123456789abcdef', k=6))
-            return f"-{hex_chars}"
+            return ''.join(random.choices('0123456789abcdef', k=6))
         else:
             return ""
     
     def _format_output(self, words: List[str], output_format: str, suffix: str) -> str:
         """
         Format words into specified output format.
-        
+
         Args:
             words: List of words to format
             output_format: Desired format (kebab, snake, camel, pascal, space)
-            suffix: Suffix to append
-        
+            suffix: Suffix to append (without separator)
+
         Returns:
             Formatted name string
         """
         if output_format == "kebab":
             base = "-".join(word.lower() for word in words)
-            return base + suffix
-        
+            return f"{base}-{suffix}" if suffix else base
+
         elif output_format == "snake":
             base = "_".join(word.lower() for word in words)
-            # Replace dash with underscore in suffix for consistency
-            suffix_clean = suffix.replace("-", "_")
-            return base + suffix_clean
+            return f"{base}_{suffix}" if suffix else base
         
         elif output_format == "camel":
             if not words:
                 return ""
             base = words[0].lower() + "".join(word.capitalize() for word in words[1:])
-            # For camelCase, append suffix without separator
-            suffix_clean = suffix.replace("-", "")
-            return base + suffix_clean
-        
+            # For camelCase, capitalize and append suffix without separator
+            suffix_capitalized = suffix.capitalize() if suffix else ""
+            return base + suffix_capitalized
+
         elif output_format == "pascal":
             base = "".join(word.capitalize() for word in words)
-            # For PascalCase, append suffix without separator
-            suffix_clean = suffix.replace("-", "")
-            return base + suffix_clean
-        
+            # For PascalCase, capitalize and append suffix without separator
+            suffix_capitalized = suffix.capitalize() if suffix else ""
+            return base + suffix_capitalized
+
         elif output_format == "space":
             base = " ".join(word.capitalize() for word in words)
             # For space format, append suffix with space
-            if suffix:
-                return base + " " + suffix.lstrip("-")
-            return base
-        
+            return f"{base} {suffix}" if suffix else base
+
         else:
             # Default to kebab
             base = "-".join(word.lower() for word in words)
-            return base + suffix
+            return f"{base}-{suffix}" if suffix else base
     
     def generate_name(
         self,
