@@ -464,6 +464,39 @@ class StarWarsNameGenerator:
         else:
             return ""
     
+    def _normalize_word_for_format(self, word: str, output_format: str) -> str:
+        """
+        Normalize hyphenated words for the target output format.
+
+        Vocabulary words like "millennium-falcon" need different treatment:
+        - kebab: keep as-is (millennium-falcon)
+        - snake: replace hyphens (millennium_falcon)
+        - camel/pascal: remove hyphens and capitalize segments (millenniumFalcon)
+        - space: replace with spaces (millennium falcon)
+
+        Args:
+            word: Word to normalize (may contain hyphens)
+            output_format: Target format
+
+        Returns:
+            Normalized word
+        """
+        if output_format == "kebab":
+            # Hyphens are already the separator, keep as-is
+            return word.lower()
+        elif output_format == "snake":
+            # Replace hyphens with underscores
+            return word.lower().replace("-", "_")
+        elif output_format in ("camel", "pascal"):
+            # Split on hyphens, capitalize each segment, join
+            segments = word.split("-")
+            return "".join(seg.capitalize() for seg in segments)
+        elif output_format == "space":
+            # Replace hyphens with spaces
+            return word.lower().replace("-", " ")
+        else:
+            return word
+
     def _format_output(self, words: List[str], output_format: str, suffix: str) -> str:
         """
         Format words into specified output format.
@@ -476,24 +509,28 @@ class StarWarsNameGenerator:
         Returns:
             Formatted name string
         """
+        # Normalize words first to handle hyphenated vocabulary items
+        normalized_words = [self._normalize_word_for_format(word, output_format) for word in words]
+
         if output_format == "kebab":
-            base = "-".join(word.lower() for word in words)
+            base = "-".join(normalized_words)
             return f"{base}-{suffix}" if suffix else base
 
         elif output_format == "snake":
-            base = "_".join(word.lower() for word in words)
+            base = "_".join(normalized_words)
             return f"{base}_{suffix}" if suffix else base
-        
+
         elif output_format == "camel":
-            if not words:
+            if not normalized_words:
                 return ""
-            base = words[0].lower() + "".join(word.capitalize() for word in words[1:])
+            # First word lowercase, rest capitalized
+            base = normalized_words[0].lower() + "".join(word for word in normalized_words[1:])
             # For camelCase, capitalize and append suffix without separator
             suffix_capitalized = suffix.capitalize() if suffix else ""
             return base + suffix_capitalized
 
         elif output_format == "pascal":
-            base = "".join(word.capitalize() for word in words)
+            base = "".join(normalized_words)
             # For PascalCase, capitalize and append suffix without separator
             suffix_capitalized = suffix.capitalize() if suffix else ""
             return base + suffix_capitalized
