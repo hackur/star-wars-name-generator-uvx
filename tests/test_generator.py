@@ -41,27 +41,32 @@ class TestWordRetrieval:
 
     def test_get_random_noun(self, generator):
         """Verify random noun selection."""
-        word = generator._get_random_word("noun")
-        assert word in generator.nouns
+        word_parts = generator._get_random_word("noun")
+        # _get_random_word now returns a list, join to get original form
+        original_word = "-".join(word_parts)
+        assert original_word in generator.nouns
 
     def test_get_random_verb(self, generator):
         """Verify random verb selection."""
-        word = generator._get_random_word("verb")
-        assert word in generator.verbs
+        word_parts = generator._get_random_word("verb")
+        original_word = "-".join(word_parts)
+        assert original_word in generator.verbs
 
     def test_get_random_adjective(self, generator):
         """Verify random adjective selection."""
-        word = generator._get_random_word("adjective")
-        assert word in generator.adjectives
+        word_parts = generator._get_random_word("adjective")
+        original_word = "-".join(word_parts)
+        assert original_word in generator.adjectives
 
     def test_get_random_adverb(self, generator):
         """Verify random adverb selection."""
-        word = generator._get_random_word("adverb")
-        assert word in generator.adverbs
+        word_parts = generator._get_random_word("adverb")
+        original_word = "-".join(word_parts)
+        assert original_word in generator.adverbs
 
     def test_randomness_distribution(self, generator):
         """Verify word selection has reasonable distribution."""
-        words = [generator._get_random_word("noun") for _ in range(100)]
+        words = ["-".join(generator._get_random_word("noun")) for _ in range(100)]
         unique_words = set(words)
         # Should get at least 20 different nouns in 100 draws
         assert len(unique_words) >= 20, "Insufficient randomness in word selection"
