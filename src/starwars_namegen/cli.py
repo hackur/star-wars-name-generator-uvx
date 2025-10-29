@@ -347,114 +347,108 @@ class StarWarsNameGenerator:
         
         self.symbols = ['!', '@', '#', '$', '%', '^', '&', '*', '+', '-', '=', '~']
     
-    def _get_random_word(self, word_type: str) -> str:
+    def _get_random_word(self, word_type: str) -> List[str]:
         """
         Retrieve random word from tactical vocabulary database.
 
         Hyphenated vocabulary words (like "millennium-falcon" or "ig-unit")
-        are kept as single units but will be normalized for different formats.
+        are split into components, with each component counting as a word.
+        This allows compound terms to fill multiple word slots naturally.
 
         Args:
             word_type: Type of word ("noun", "verb", "adjective", "adverb")
 
         Returns:
-            Random word from specified category
+            List of word components (single word or split hyphenated compound)
         """
         if word_type == "noun":
-            return random.choice(self.nouns)
+            word = random.choice(self.nouns)
         elif word_type == "verb":
-            return random.choice(self.verbs)
+            word = random.choice(self.verbs)
         elif word_type == "adjective":
-            return random.choice(self.adjectives)
+            word = random.choice(self.adjectives)
         elif word_type == "adverb":
-            return random.choice(self.adverbs)
+            word = random.choice(self.adverbs)
         else:
-            return random.choice(self.nouns)
+            word = random.choice(self.nouns)
+
+        # Split hyphenated compounds into components
+        # "millennium-falcon" becomes ["millennium", "falcon"] (2 words)
+        return word.split("-")
     
     def _apply_grammar(self, word_count: int) -> List[str]:
         """
         Apply tactical grammar rules to generate name components.
 
-        Grammar Protocols:
-        - 1-word: {noun}
-        - 2-word: {adjective} {noun}
-        - 3-word: {adjective} {noun} {verb-past}
-        - 4-word: {adverb} {adjective} {noun} {verb-past}
-        - 5-word: the {adjective} {noun} {adverb} {verb-past}
+        Dynamically builds up words until target count is reached.
+        Hyphenated vocabulary words (like "millennium-falcon") are split
+        into components, with each component counting toward the total.
 
-        Note: Hyphenated vocabulary words (like "millennium-falcon") count as
-        single units here, normalized during formatting.
+        Grammar Pattern:
+        - Start with adjectives/nouns for flavor
+        - Add adverbs for variation in longer names
+        - End with past-tense verb for action
+        - Compound words naturally fill multiple slots
 
         Args:
-            word_count: Number of words to generate (1-5)
+            word_count: Target number of words (1-5)
 
         Returns:
-            List of words forming the name
+            List of words forming the name (may slightly exceed target due to compounds)
         """
+        words = []
+
+        # Start with a noun for 1-word names
         if word_count == 1:
-            return [self._get_random_word("noun")]
+            words.extend(self._get_random_word("noun"))
+            return words[:word_count]
 
-        elif word_count == 2:
-            adj = self._get_random_word("adjective")
-            noun = self._get_random_word("noun")
-            return [adj, noun]
+        # Build up words dynamically based on target count
+        # Pattern: [adjective(s)] [noun] [adverb (optional)] [verb-past]
 
-        elif word_count == 3:
-            adj = self._get_random_word("adjective")
-            noun = self._get_random_word("noun")
-            verb = self._get_random_word("verb")
-            past_verb = self._to_past_tense(verb)
-            return [adj, noun, past_verb]
+        # Add adjective(s)
+        words.extend(self._get_random_word("adjective"))
 
-        elif word_count == 4:
-            adv = self._get_random_word("adverb")
-            adj = self._get_random_word("adjective")
-            noun = self._get_random_word("noun")
-            verb = self._get_random_word("verb")
-            past_verb = self._to_past_tense(verb)
-            return [adv, adj, noun, past_verb]
+        # Add noun if we haven't hit the count yet
+        if len(words) < word_count:
+            words.extend(self._get_random_word("noun"))
 
-        else:  # 5 words
-            adj = self._get_random_word("adjective")
-            noun = self._get_random_word("noun")
-            adv = self._get_random_word("adverb")
-            verb = self._get_random_word("verb")
-            past_verb = self._to_past_tense(verb)
-            return ["the", adj, noun, adv, past_verb]
+        # Add adverb for longer names (4-5 words)
+        if len(words) < word_count and word_count >= 4:
+            words.extend(self._get_random_word("adverb"))
+
+        # Always try to end with a verb (if space allows)
+        if len(words) < word_count:
+            verb_parts = self._get_random_word("verb")
+            # For verbs, convert to past tense before splitting
+            # Take first component only to avoid over-extending
+            verb = verb_parts[0]
+            words.append(self._to_past_tense(verb))
+
+        # Trim or pad to target count
+        if len(words) > word_count:
+            return words[:word_count]
+
+        # If we're still short, add more adjectives
+        while len(words) < word_count:
+            words.extend(self._get_random_word("adjective"))
+
+        return words[:word_count]
     
     def _to_past_tense(self, verb: str) -> str:
         """
         Convert verb to past tense using simplified rules.
 
-        For hyphenated verbs (like "barrel-roll"), converts only the last
-        segment to past tense and rejoins without the hyphen to avoid
-        conflicts with kebab-case formatting.
-
         Args:
-            verb: Base verb form
+            verb: Base verb form (single word, no hyphens)
 
         Returns:
             Past tense form of verb
         """
-        # Handle hyphenated verbs specially to avoid format conflicts
-        if "-" in verb:
-            parts = verb.split("-")
-            # Convert only the last part to past tense
-            last_part = parts[-1]
-            if last_part.endswith('e'):
-                past_last = last_part + 'd'
-            elif last_part.endswith('y') and last_part[-2] not in 'aeiou':
-                past_last = last_part[:-1] + 'ied'
-            else:
-                past_last = last_part + 'ed'
-            # Rejoin WITHOUT hyphen to avoid kebab-case conflicts
-            # "barrel-roll" becomes "barrelrolled"
-            return "".join(parts[:-1]) + past_last
-
-        # Simple past tense rules for non-hyphenated verbs
+        # Simple past tense rules
         if verb.endswith('e'):
             return verb + 'd'
-        elif verb.endswith('y') and verb[-2] not in 'aeiou':
+        elif verb.endswith('y') and len(verb) > 1 and verb[-2] not in 'aeiou':
             return verb[:-1] + 'ied'
         else:
             return verb + 'ed'
@@ -491,39 +485,19 @@ class StarWarsNameGenerator:
     
     def _normalize_word_for_format(self, word: str, output_format: str) -> str:
         """
-        Normalize hyphenated vocabulary words for the target output format.
+        Normalize individual word components for the target output format.
 
-        Handles hyphenated terms like "millennium-falcon" or "ig-unit":
-        - kebab-case: millennium-falcon (keep hyphens)
-        - snake_case: millennium_falcon (replace with underscores)
-        - camelCase: millenniumFalcon (capitalize segments, join)
-        - PascalCase: MillenniumFalcon (capitalize segments, join)
-        - space: Millennium Falcon (capitalize segments, use spaces)
+        Since compound words are already split into components by _get_random_word(),
+        this only needs to handle basic case formatting for each individual word.
 
         Args:
-            word: Word to normalize (may contain hyphens)
+            word: Single word component (no hyphens)
             output_format: Target format
 
         Returns:
-            Normalized word
+            Normalized word with proper casing
         """
-        # Handle hyphenated words - remove/replace internal hyphens
-        if "-" in word:
-            # For all formats, join hyphenated segments to avoid separator conflicts
-            # "millennium-falcon" becomes "millenniumfalcon" (single word)
-            segments = word.split("-")
-            joined = "".join(segments)
-
-            if output_format == "kebab":
-                return joined.lower()
-            elif output_format == "snake":
-                return joined.lower()
-            elif output_format in ("camel", "pascal", "space"):
-                return joined.capitalize()
-            else:
-                return joined.lower()
-
-        # Non-hyphenated word - simple case handling
+        # Simple case handling for individual word components
         if output_format in ("camel", "pascal", "space"):
             return word.capitalize()
         else:
