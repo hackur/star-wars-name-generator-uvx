@@ -1,6 +1,6 @@
-# 🚀 Star Wars Name Generator - Quick Start Guide
+# Star Wars Name Generator - Quick Start Guide
 
-**Get started in 30 seconds!**
+**Get started in 30 seconds**
 
 ## Instant Usage (Zero Installation)
 
@@ -73,9 +73,11 @@ print(name)  # rebel-base-secured-a3f
 | `-r, --random` | Suffix type | `--random hex` |
 | `-s, --seed` | Reproducible seed | `--seed 42` |
 
-**Formats**: `kebab`, `snake`, `camel`, `pascal`, `space`  
+**Formats**: `kebab`, `snake`, `camel`, `pascal`, `space`
 **Suffixes**: `none`, `digits`, `hex`, `symbol`, `uuid`
 
 ---
 
-**That's it! May the Force be with your infrastructure.** ⭐
+**That's it! May the Force be with your infrastructure.**
+
+Created by Jeremy Sarda - https://gitlab.com/hackur/starwars-namegen

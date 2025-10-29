@@ -13,8 +13,8 @@ We welcome contributions from tactical engineers across the galaxy. This documen
 
 ### Clone and Setup
 ```bash
-# Clone the imperial archives
-git clone https://github.com/anthropics/starwars-namegen.git
+# Clone the repository
+git clone https://gitlab.com/hackur/starwars-namegen.git
 cd starwars-namegen
 
 # Initialize tactical environment
@@ -93,8 +93,8 @@ chore: Maintenance tasks
 
 ## Pull Request Process
 
-1. Push your branch to GitHub
-2. Create a pull request with clear description
+1. Push your branch to GitLab
+2. Create a merge request with clear description
 3. Ensure all checks pass
 4. Wait for review from maintainers
 
@@ -116,8 +116,10 @@ Add suffix logic in `_generate_suffix` method.
 
 ## Questions?
 
-Open an issue on GitHub for questions or discussions.
+Open an issue on GitLab for questions or discussions.
 
 ---
+
+**Author**: Jeremy Sarda (jeremy@hackur.io)
 
 **May the Force guide your contributions!**

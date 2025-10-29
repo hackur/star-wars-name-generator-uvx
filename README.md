@@ -1,20 +1,19 @@
-# ⭐ Star Wars Name Generator
+# Star Wars Name Generator
 
-[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
+[![Python Version](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Package Manager](https://img.shields.io/badge/uv-compatible-green.svg)](https://docs.astral.sh/uv/)
-[![PyPI](https://img.shields.io/badge/PyPI-coming%20soon-orange.svg)](https://pypi.org/)
-[![Status](https://img.shields.io/badge/status-operational-brightgreen.svg)](https://github.com/anthropics/starwars-namegen)
+[![Status](https://img.shields.io/badge/status-operational-brightgreen.svg)](https://gitlab.com/hackur/starwars-namegen)
 [![Built with Click](https://img.shields.io/badge/CLI-Click-blue.svg)](https://click.palletsprojects.com/)
 [![Code Style](https://img.shields.io/badge/code%20style-PEP%208-orange.svg)](https://peps.python.org/pep-0008/)
 [![Type Checked](https://img.shields.io/badge/type%20hints-enabled-blue.svg)](https://docs.python.org/3/library/typing.html)
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](./final_test.sh)
 
-> **DEATH STAR OPERATIONAL PROTOCOL**: A precision tactical weapon system for generating Star Wars-themed nomenclature across all Imperial infrastructure deployments.
+> A precision tactical weapon system for generating Star Wars-themed nomenclature across all Imperial infrastructure deployments.
 
 A professional CLI tool for generating unique, Star Wars-themed multi-word names for servers, containers, databases, projects, and any resource requiring memorable identification.
 
-## 🎯 Mission Purpose: Preventing the "Obvious-Open-Duct" Vulnerability
+## Mission Purpose: Preventing the "Obvious-Open-Duct" Vulnerability
 
 **CLASSIFIED IMPERIAL MEMO - SECURITY DIRECTIVE #DS-001**
 
@@ -23,17 +22,17 @@ After extensive post-mortem analysis of Death Star I's catastrophic failure, Imp
 ### The Problem
 
 Historical records show that poorly named infrastructure components led to tactical disasters:
-- `obvious-open-duct-007` ❌ **UNACCEPTABLE** - Literally advertising the vulnerability
-- `thermal-exhaust-port-unshielded` ❌ **SECURITY BREACH** - Rebel intelligence loves you
-- `main-reactor-easy-access` ❌ **COURT MARTIAL MATERIAL** - Self-documenting failure
-- `backup-power-no-auth` ❌ **TREASON** - Why not just send the Rebels an invitation?
+- `obvious-open-duct-007` - UNACCEPTABLE - Literally advertising the vulnerability
+- `thermal-exhaust-port-unshielded` - SECURITY BREACH - Rebel intelligence loves you
+- `main-reactor-easy-access` - COURT MARTIAL MATERIAL - Self-documenting failure
+- `backup-power-no-auth` - TREASON - Why not just send the Rebels an invitation?
 
 ### The Solution
 
 This name generator ensures your infrastructure uses **tactically sound, memorable, yet non-descriptive nomenclature** that doesn't advertise security vulnerabilities:
-- `stealth-protocol-847` ✅ **APPROVED** - Memorable, unique, gives nothing away
-- `crimson-falcon-a3f` ✅ **EXCELLENT** - Cool name, zero tactical intel leaked
-- `quantum-garrison-2b9` ✅ **COMMENDED** - Good luck reverse-engineering that, Rebels
+- `stealth-protocol-847` - APPROVED - Memorable, unique, gives nothing away
+- `crimson-falcon-a3f` - EXCELLENT - Cool name, zero tactical intel leaked
+- `quantum-garrison-2b9` - COMMENDED - Good luck reverse-engineering that, Rebels
 
 ### Why This Matters for uv Tool Developers
 
@@ -48,7 +47,7 @@ This tool demonstrates **best practices for uv-based Python packaging** while so
 
 **TL;DR:** Don't let your naming conventions become your downfall. Use this tool to generate names that are memorable but meaningless to adversaries.
 
-## 🎯 Mission Objectives
+## Mission Objectives
 
 - **Zero-Installation Deployment**: Execute via `uvx` with no pre-installation required
 - **Tactical Flexibility**: 5 output formats (kebab, snake, camel, pascal, space)
@@ -57,7 +56,7 @@ This tool demonstrates **best practices for uv-based Python packaging** while so
 - **Grammar-Enhanced**: Linguistically sound 1-5 word combinations
 - **High-Speed Execution**: <500ms cold start, <10ms per name generation
 
-## 🚀 Quick Deployment
+## Quick Deployment
 
 ### Option 1: Zero-Installation (uvx)
 ```bash
@@ -80,7 +79,7 @@ starwars-namegen -c 3 -f kebab --random digits
 ### Option 3: Development Environment
 ```bash
 # Clone imperial archives
-git clone https://github.com/anthropics/starwars-namegen
+git clone https://gitlab.com/hackur/starwars-namegen
 cd starwars-namegen
 
 # Activate tactical systems
@@ -90,7 +89,7 @@ uv sync
 uv run starwars-namegen --help
 ```
 
-## 📡 Command Interface
+## Command Interface
 
 ```
 starwars-namegen [OPTIONS]
@@ -100,10 +99,10 @@ starwars-namegen [OPTIONS]
 
 | Parameter | Type | Description | Combat Example |
 |-----------|------|-------------|----------------|
-| `-c, --count` | INTEGER | Word count (1-5) | `-c 3` → 3-word name |
-| `-f, --format` | CHOICE | Output format | `-f snake` → `rebel_base_secured` |
-| `-m, --multiple` | INTEGER | Generate multiple targets | `-m 10` → 10 names |
-| `-r, --random` | CHOICE | Suffix type | `--random hex` → `name-a3f` |
+| `-c, --count` | INTEGER | Word count (1-5) | `-c 3` generates 3-word name |
+| `-f, --format` | CHOICE | Output format | `-f snake` generates `rebel_base_secured` |
+| `-m, --multiple` | INTEGER | Generate multiple targets | `-m 10` generates 10 names |
+| `-r, --random` | CHOICE | Suffix type | `--random hex` appends `-a3f` |
 | `-s, --seed` | INTEGER | Reproducible operations | `--seed 42` |
 | `--version` | FLAG | Display weapon version | Shows v0.1.0 |
 | `--help` | FLAG | Tactical manual | Full command docs |
@@ -118,7 +117,7 @@ starwars-namegen [OPTIONS]
 | `pascal` | `RebelFleetDeployed` | Classes, types, components |
 | `space` | `Rebel Fleet Deployed` | Human-readable displays |
 
-## 💫 Combat Scenarios
+## Combat Scenarios
 
 ### Docker Fleet Deployment
 ```bash
@@ -142,7 +141,7 @@ BUILD_ID=$(starwars-namegen --seed ${GITHUB_RUN_ID} -c 2 -f kebab)
 echo "Deploying build: $BUILD_ID"
 ```
 
-## 🛠️ Programmatic Integration
+## Programmatic Integration
 
 ```python
 from starwars_namegen.cli import StarWarsNameGenerator
@@ -159,12 +158,42 @@ name = generator.generate_name(
 print(name)
 ```
 
-## 📄 License
+## Testing
+
+```bash
+# Run test suite
+uv run pytest
+
+# Run with coverage
+uv run pytest --cov=src/starwars_namegen --cov-report=html
+
+# Run operational tests
+./final_test.sh
+```
+
+## Development
+
+```bash
+# Install with dev dependencies
+uv sync --all-extras
+
+# Run type checking
+uv run mypy src/
+
+# Run linting
+uv run ruff check src/
+```
+
+## Author
+
+Created by **Jeremy Sarda** (jeremy@hackur.io)
+
+## License
 
 MIT License - See `LICENSE` for full authorization credentials.
 
 ---
 
-**OPERATIONAL STATUS**: ✅ All systems nominal. Weapon platform ready for deployment.
+**OPERATIONAL STATUS**: All systems nominal. Weapon platform ready for deployment.
 
 *May the Force be with your infrastructure.*

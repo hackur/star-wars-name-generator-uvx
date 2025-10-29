@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
 authors = [
-    {name = "Claude Code", email = "claude@anthropic.com"}
+    {name = "Jeremy Sarda", email = "jeremy@hackur.io"}
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -32,11 +32,18 @@ dependencies = [
     "inflect>=7.0.0",
 ]
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "mypy>=1.0.0",
+]
+
 [project.urls]
-Homepage = "https://github.com/anthropics/starwars-namegen"
-Documentation = "https://github.com/anthropics/starwars-namegen#readme"
-Repository = "https://github.com/anthropics/starwars-namegen"
-Issues = "https://github.com/anthropics/starwars-namegen/issues"
+Homepage = "https://gitlab.com/hackur/starwars-namegen"
+Documentation = "https://gitlab.com/hackur/starwars-namegen#readme"
+Repository = "https://gitlab.com/hackur/starwars-namegen"
+Issues = "https://gitlab.com/hackur/starwars-namegen/-/issues"
 
 [project.scripts]
 starwars-namegen = "starwars_namegen.cli:main"
