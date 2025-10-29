@@ -1,166 +1,123 @@
 # Contributing to Star Wars Name Generator
 
-Thank you for your interest in contributing to this project! This is a demonstration tool showcasing professional Python packaging with `uv`, but we welcome improvements and enhancements.
+**IMPERIAL ENGINEERING CORPS - CONTRIBUTION PROTOCOLS**
 
-## Development Setup
+We welcome contributions from tactical engineers across the galaxy. This document outlines the operational procedures for contributing to the Star Wars Name Generator weapon platform.
+
+## Development Environment Setup
 
 ### Prerequisites
-
 - Python 3.9 or higher
-- `uv` package manager ([installation guide](https://docs.astral.sh/uv/))
+- uv package manager (`curl -LsSf https://astral.sh/uv/install.sh | sh`)
 - Git
 
-### Getting Started
+### Clone and Setup
+```bash
+# Clone the imperial archives
+git clone https://github.com/anthropics/starwars-namegen.git
+cd starwars-namegen
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/anthropics/claude-code.git
-   cd star-wars-name-generator-uvx
-   ```
+# Initialize tactical environment
+uv sync
 
-2. **Install dependencies:**
-   ```bash
-   uv sync
-   ```
-
-3. **Run the tool locally:**
-   ```bash
-   uv run starwars-namegen
-   ```
+# Verify systems operational
+uv run starwars-namegen --help
+```
 
 ## Development Workflow
 
-### Making Changes
+### 1. Create Feature Branch
+```bash
+git checkout -b feature/your-feature-name
+```
 
-1. Create a new branch:
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
+### 2. Make Changes
+- Edit code in `src/starwars_namegen/`
+- Update tests if applicable
+- Update documentation if needed
 
-2. Make your changes to the code
+### 3. Test Locally
+```bash
+# Run the tool
+uv run starwars-namegen -c 3 -f snake
 
-3. Test your changes:
-   ```bash
-   # Run the CLI
-   uv run starwars-namegen --help
+# Test all formats
+uv run starwars-namegen -c 2 -f kebab
+uv run starwars-namegen -c 2 -f snake
+uv run starwars-namegen -c 2 -f camel
+uv run starwars-namegen -c 2 -f pascal
+uv run starwars-namegen -c 2 -f space
 
-   # Test specific functionality
-   uv run starwars-namegen -c 3 -f snake
-   ```
+# Test suffix types
+uv run starwars-namegen --random digits
+uv run starwars-namegen --random hex
+uv run starwars-namegen --random symbol
+uv run starwars-namegen --random uuid
+```
 
-4. Build and test the package:
-   ```bash
-   # Build distribution
-   uv build
+### 4. Build and Verify
+```bash
+# Build distribution packages
+uv build
 
-   # Install locally
-   uv tool install dist/starwars_namegen-*.whl
+# Test wheel installation
+uv tool install dist/starwars_namegen-*.whl --force
+starwars-namegen --version
+```
 
-   # Test installed version
-   starwars-namegen
-   ```
+### 5. Commit Changes
+```bash
+git add .
+git commit -m "feat: Add your feature description"
+```
 
-### Code Style
+## Code Style
 
 - Follow PEP 8 guidelines
-- Use type hints for all function parameters and return values
-- Add docstrings to all public functions and classes
-- Keep lines under 100 characters when possible
-- Use meaningful variable and function names
-
-### Adding New Features
-
-If you're adding a new feature, please:
-
-1. Update the documentation in README.md
-2. Add examples to the examples/ directory if applicable
-3. Update CHANGELOG.md with your changes
-4. Ensure the feature works with all output formats
-5. Test with different Python versions if possible (3.9, 3.10, 3.11, 3.12, 3.13)
-
-### Common Enhancement Areas
-
-- **Vocabulary expansion:** Add more Star Wars themed words
-- **New formats:** Additional output format styles
-- **New themes:** Non-Star Wars vocabularies (Marvel, LOTR, etc.)
-- **Grammar improvements:** More sophisticated sentence patterns
-- **Performance:** Optimization for large batch generations
-- **Testing:** Add automated tests
-
-## Submitting Changes
-
-1. **Commit your changes:**
-   ```bash
-   git add .
-   git commit -m "feat: add awesome new feature"
-   ```
-
-2. **Push to your fork:**
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-
-3. **Create a Pull Request:**
-   - Go to the repository on GitHub
-   - Click "New Pull Request"
-   - Select your branch
-   - Describe your changes
-   - Submit the PR
-
-## Pull Request Guidelines
-
-- **Title:** Use a clear, descriptive title
-- **Description:** Explain what your changes do and why
-- **Testing:** Describe how you tested your changes
-- **Documentation:** Update relevant documentation
-- **Changelog:** Add entry to CHANGELOG.md under [Unreleased]
+- Use type hints for all functions
+- Add docstrings to all public methods
+- Keep the "Death Star" theme in documentation
 
 ## Commit Message Convention
 
-We follow Conventional Commits:
+Follow conventional commits format:
 
-- `feat:` New feature
-- `fix:` Bug fix
-- `docs:` Documentation changes
-- `style:` Code style changes (formatting, etc.)
-- `refactor:` Code refactoring
-- `test:` Adding or updating tests
-- `chore:` Maintenance tasks
-
-Examples:
 ```
-feat: add Marvel theme vocabulary
-fix: correct past tense conversion for irregular verbs
-docs: update README with new examples
+feat: Add new feature
+fix: Bug fix
+docs: Documentation update
+refactor: Code refactoring
+test: Add tests
+chore: Maintenance tasks
 ```
 
-## Reporting Issues
+## Pull Request Process
 
-Found a bug or have a feature request?
+1. Push your branch to GitHub
+2. Create a pull request with clear description
+3. Ensure all checks pass
+4. Wait for review from maintainers
 
-1. Check if the issue already exists
-2. Create a new issue with:
-   - Clear title
-   - Detailed description
-   - Steps to reproduce (for bugs)
-   - Expected vs actual behavior
-   - Environment details (OS, Python version, uv version)
+## Adding New Features
+
+### Adding Vocabulary
+Edit `src/starwars_namegen/cli.py`:
+```python
+self.nouns = [
+    # Add your Star Wars nouns here
+]
+```
+
+### Adding New Output Formats
+Add format handling in `_format_output` method.
+
+### Adding New Suffix Types
+Add suffix logic in `_generate_suffix` method.
 
 ## Questions?
 
-Feel free to open an issue for questions or discussion!
-
-## Code of Conduct
-
-- Be respectful and constructive
-- Help others learn
-- Keep discussions on topic
-- Report inappropriate behavior
-
-## License
-
-By contributing, you agree that your contributions will be licensed under the MIT License.
+Open an issue on GitHub for questions or discussions.
 
 ---
 
-Thank you for contributing! May the Force be with you.
+**May the Force guide your contributions!**

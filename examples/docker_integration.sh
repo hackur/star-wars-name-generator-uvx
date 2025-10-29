@@ -1,66 +1,56 @@
 #!/bin/bash
-# Docker Integration Examples for Star Wars Name Generator
+# Docker Integration Examples
+# CONTAINER FLEET NAMING PROTOCOLS
 
-echo "========================================================"
-echo "Star Wars Name Generator - Docker Integration Examples"
-echo "========================================================"
+echo "================================================"
+echo "Docker Integration - Container Naming Examples"
+echo "================================================"
 echo ""
 
-echo "=== Example 1: Launch Container with Generated Name ==="
-CONTAINER_NAME=$(starwars-namegen --random digits)
-echo "Generated container name: $CONTAINER_NAME"
-echo "Command: docker run -d --name $CONTAINER_NAME nginx:latest"
-echo "(Not executing - demo only)"
-echo ""
-
-echo "=== Example 2: Launch Multiple Containers ==="
-echo "Launching 5 containers with unique Star Wars names..."
+echo "=== Scenario 1: Launch Container Fleet with Unique Names ==="
+echo "Generating 5 container names..."
 for i in {1..5}; do
-    NAME=$(starwars-namegen -c 2 --random hex)
-    echo "Container $i: $NAME"
-    echo "  → docker run -d --name $NAME nginx:latest"
+    CONTAINER_NAME=$(starwars-namegen -c 2 -f kebab --random digits)
+    echo "Container $i: $CONTAINER_NAME"
+    # Example command (commented out to avoid actually creating containers):
+    # docker run -d --name $CONTAINER_NAME nginx:alpine
 done
-echo "(Not executing - demo only)"
 echo ""
 
-echo "=== Example 3: Create Docker Network with Generated Name ==="
-NETWORK_NAME=$(starwars-namegen -c 3)
-echo "Generated network name: $NETWORK_NAME"
-echo "Command: docker network create $NETWORK_NAME"
-echo "(Not executing - demo only)"
+echo "=== Scenario 2: Database Containers with Descriptive Names ==="
+echo "Generating 3 database instance names..."
+for i in {1..3}; do
+    DB_NAME=$(starwars-namegen -c 2 -f snake --random hex)
+    echo "Database $i: db_${DB_NAME}"
+    # Example command:
+    # docker run -d --name db_${DB_NAME} postgres:latest
+done
 echo ""
 
-echo "=== Example 4: Reproducible Container Names (CI/CD) ==="
-echo "Using seed for consistent naming in CI/CD pipelines..."
-SEED=12345
-APP_NAME=$(starwars-namegen --seed $SEED -c 2)
-DB_NAME=$(starwars-namegen --seed $((SEED + 1)) -c 2)
-CACHE_NAME=$(starwars-namegen --seed $((SEED + 2)) -c 2)
+echo "=== Scenario 3: Microservices Architecture ==="
+echo "Generating service names for different components..."
+API_NAME=$(starwars-namegen -c 2 -f kebab --random digits)
+WORKER_NAME=$(starwars-namegen -c 2 -f kebab --random digits)
+CACHE_NAME=$(starwars-namegen -c 2 -f kebab --random digits)
+QUEUE_NAME=$(starwars-namegen -c 2 -f kebab --random digits)
 
-echo "Application container: $APP_NAME"
-echo "Database container: $DB_NAME"
-echo "Cache container: $CACHE_NAME"
+echo "API Service: $API_NAME"
+echo "Worker Service: $WORKER_NAME"
+echo "Cache Service: $CACHE_NAME"
+echo "Queue Service: $QUEUE_NAME"
 echo ""
 
-echo "=== Example 5: Generate docker-compose Service Names ==="
-echo "Generating names for docker-compose.yml..."
-cat <<EOF
-services:
-  $(starwars-namegen -c 2 -f snake):
-    image: nginx:latest
-    ports:
-      - "8080:80"
-
-  $(starwars-namegen -c 2 -f snake):
-    image: postgres:14
-    environment:
-      POSTGRES_PASSWORD: secret
-
-  $(starwars-namegen -c 2 -f snake):
-    image: redis:7
-EOF
+echo "=== Scenario 4: Reproducible Deployment Names ==="
+echo "Using seed for consistent naming across environments..."
+SEED_VALUE=12345
+PROD_NAME=$(starwars-namegen --seed $SEED_VALUE -c 3 -f kebab)
+echo "Production deployment (seed $SEED_VALUE): $PROD_NAME"
+echo "Running again with same seed:"
+PROD_NAME_2=$(starwars-namegen --seed $SEED_VALUE -c 3 -f kebab)
+echo "Production deployment (seed $SEED_VALUE): $PROD_NAME_2"
+echo "Names match: $([ "$PROD_NAME" = "$PROD_NAME_2" ] && echo 'YES' || echo 'NO')"
 echo ""
 
-echo "========================================================"
+echo "================================================"
 echo "Docker integration examples completed!"
-echo "========================================================"
+echo "================================================"

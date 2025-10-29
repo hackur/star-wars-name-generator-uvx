@@ -7,49 +7,43 @@ name = "starwars-namegen"
 version = "0.1.0"
 description = "Generate Star Wars-themed multi-word names for servers, instances, and resources"
 readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
 authors = [
     {name = "Claude Code", email = "claude@anthropic.com"}
 ]
-license = {text = "MIT"}
-requires-python = ">=3.9"
-dependencies = [
-    "click>=8.0.0",
-    "inflect>=7.0.0",
-]
 classifiers = [
     "Development Status :: 4 - Beta",
-    "Environment :: Console",
     "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: System :: Systems Administration",
     "Topic :: Utilities",
 ]
-keywords = ["star-wars", "naming", "generator", "cli", "devops"]
+keywords = ["star-wars", "name-generator", "cli", "naming", "devops"]
+dependencies = [
+    "click>=8.0.0",
+    "inflect>=7.0.0",
+]
 
 [project.urls]
-Homepage = "https://github.com/anthropics/claude-code"
-Documentation = "https://github.com/anthropics/claude-code#readme"
-Repository = "https://github.com/anthropics/claude-code.git"
-Issues = "https://github.com/anthropics/claude-code/issues"
+Homepage = "https://github.com/anthropics/starwars-namegen"
+Documentation = "https://github.com/anthropics/starwars-namegen#readme"
+Repository = "https://github.com/anthropics/starwars-namegen"
+Issues = "https://github.com/anthropics/starwars-namegen/issues"
 
 [project.scripts]
 starwars-namegen = "starwars_namegen.cli:main"
 
-[tool.uv]
-managed = true
-
 [tool.hatch.build.targets.wheel]
 packages = ["src/starwars_namegen"]
 
-[tool.hatch.build.targets.sdist]
-include = [
-    "/src",
-    "/README.md",
-    "/LICENSE",
-]
+[tool.uv]
+managed = true
+dev-dependencies = []
