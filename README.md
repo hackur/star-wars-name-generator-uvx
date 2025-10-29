@@ -3,9 +3,12 @@
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Package Manager](https://img.shields.io/badge/uv-compatible-green.svg)](https://docs.astral.sh/uv/)
+[![PyPI](https://img.shields.io/badge/PyPI-coming%20soon-orange.svg)](https://pypi.org/)
 [![Status](https://img.shields.io/badge/status-operational-brightgreen.svg)](https://github.com/anthropics/starwars-namegen)
 [![Built with Click](https://img.shields.io/badge/CLI-Click-blue.svg)](https://click.palletsprojects.com/)
 [![Code Style](https://img.shields.io/badge/code%20style-PEP%208-orange.svg)](https://peps.python.org/pep-0008/)
+[![Type Checked](https://img.shields.io/badge/type%20hints-enabled-blue.svg)](https://docs.python.org/3/library/typing.html)
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](./final_test.sh)
 
 > **DEATH STAR OPERATIONAL PROTOCOL**: A precision tactical weapon system for generating Star Wars-themed nomenclature across all Imperial infrastructure deployments.
 
