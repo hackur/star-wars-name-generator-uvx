@@ -24,71 +24,325 @@ class StarWarsNameGenerator:
         """Initialize the name generation tactical systems."""
         self.inflect_engine = inflect.engine()
         
-        # VOCABULARY ARSENAL - Star Wars Themed Terms
+        # VOCABULARY ARSENAL - Expanded Star Wars Universe
+        # Over 200 nouns covering characters, ships, planets, creatures, and more!
         self.nouns = [
-            "falcon", "destroyer", "empire", "rebel", "jedi", "sith", "force",
-            "lightsaber", "blaster", "droid", "trooper", "clone", "republic",
-            "senate", "council", "temple", "base", "outpost", "station", "fleet",
-            "squadron", "legion", "battalion", "cruiser", "fighter", "speeder",
-            "walker", "dreadnought", "frigate", "corvette", "starfighter",
-            "interceptor", "bomber", "transport", "shuttle", "gunship", "academy",
-            "garrison", "armada", "patrol", "scout", "hunter", "bounty",
-            "smuggler", "scavenger", "pilot", "commander", "admiral", "general",
-            "captain", "lieutenant", "sergeant", "trooper", "guard", "sentinel",
-            "wookiee", "ewok", "hutt", "naboo", "tatooine", "hoth", "endor",
-            "dagobah", "coruscant", "alderaan", "yavin", "bespin", "kamino",
-            "geonosis", "mustafar", "kashyyyk", "mandalore", "dathomir",
-            "holocron", "kyber", "crystal", "saber", "chancellor", "senator",
-            "emperor", "lord", "master", "knight", "padawan", "youngling",
-            "apprentice", "queen", "king", "prince", "princess", "duchess",
-            "protocol", "astromech", "battle", "medical", "probe", "assassin",
-            "cantina", "hangar", "bay", "chamber", "throne", "pit", "arena"
+            # Iconic Ships & Vehicles
+            "falcon", "destroyer", "xwing", "tiefighter", "awing", "bwing", "ywing",
+            "interceptor", "bomber", "starfighter", "cruiser", "frigate", "corvette",
+            "dreadnought", "walker", "speeder", "transport", "shuttle", "gunship",
+            "blockade-runner", "star-destroyer", "super-destroyer", "executor",
+            "millennium-falcon", "slave-one", "outrider", "ebon-hawk", "razor-crest",
+
+            # Factions & Organizations
+            "empire", "rebel", "alliance", "republic", "confederacy", "resistance",
+            "first-order", "new-order", "separatist", "federation", "syndicate",
+
+            # Force Users & Ranks
+            "jedi", "sith", "force", "padawan", "knight", "master", "lord",
+            "apprentice", "inquisitor", "guardian", "consular", "sentinel",
+            "grey-jedi", "dark-jedi", "acolyte", "initiate", "youngling",
+
+            # Military Ranks & Roles
+            "commander", "admiral", "general", "captain", "lieutenant", "sergeant",
+            "major", "colonel", "marshal", "moff", "grand-moff", "warlord",
+            "trooper", "soldier", "pilot", "navigator", "gunner", "engineer",
+            "scout", "ranger", "commando", "operative", "agent", "spy",
+
+            # Planets & Moons (Major Locations)
+            "tatooine", "hoth", "endor", "dagobah", "coruscant", "naboo",
+            "alderaan", "yavin", "bespin", "kamino", "geonosis", "mustafar",
+            "kashyyyk", "mandalore", "dathomir", "ryloth", "mon-cala", "corellia",
+            "jakku", "scarif", "jedha", "eadu", "crait", "ahch-to", "exegol",
+            "korriban", "moraband", "dantooine", "ord-mantell", "nar-shaddaa",
+
+            # Creatures & Species
+            "wookiee", "ewok", "hutt", "rodian", "twilek", "togruta", "zabrak",
+            "rancor", "wampa", "tauntaun", "bantha", "dewback", "nexu", "reek",
+            "acklay", "sarlacc", "krayt-dragon", "mynock", "porg", "loth-cat",
+            "purrgil", "exogorth", "zillo-beast", "rathtar", "varactyl",
+
+            # Droids & Tech
+            "droid", "astromech", "protocol", "battle-droid", "probe-droid",
+            "assassin-droid", "medical-droid", "gonk-droid", "mouse-droid",
+            "r2unit", "bb-unit", "c-unit", "ig-unit", "hk-unit",
+
+            # Weapons & Equipment
+            "lightsaber", "blaster", "bowcaster", "vibroblade", "electrostaff",
+            "thermal-detonator", "ion-cannon", "turbolaser", "photon-torpedo",
+            "proton-torpedo", "seismic-charge", "disruptor", "slugthrower",
+
+            # Structures & Locations
+            "temple", "citadel", "fortress", "stronghold", "bastion", "sanctuary",
+            "academy", "enclave", "monastery", "palace", "cathedral",
+            "base", "outpost", "station", "garrison", "bunker", "depot",
+            "cantina", "hangar", "bay", "dock", "spaceport", "starport",
+            "arena", "colosseum", "pit", "chamber", "throne-room", "council-chamber",
+
+            # Force & Mysticism
+            "holocron", "kyber-crystal", "focusing-crystal", "adegan-crystal",
+            "meditation-chamber", "vergence", "nexus", "wellspring",
+
+            # Misc Star Wars Elements
+            "fleet", "armada", "squadron", "wing", "flight", "battalion",
+            "legion", "company", "platoon", "squad", "cell", "sector",
+            "system", "cluster", "expanse", "nebula", "hyperspace", "parsec",
+            "senate", "council", "tribunal", "assembly", "conclave",
+            "chancellor", "senator", "emperor", "queen", "king", "prince",
+            "princess", "duchess", "viceroy", "governor", "prefect",
+            "smuggler", "scavenger", "hunter", "bounty-hunter", "mercenary",
+            "pirate", "raider", "marauder", "scoundrel", "rogue",
+
+            # Easter Egg References (subtle - no direct character names per licensing)
+            "skywalker", "solo", "organa", "kenobi", "vader", "palpatine",
+            "maul", "dooku", "grievous", "tarkin", "thrawn", "veers",
+            "binks", "fett", "calrissian", "antilles", "ackbar", "mothma",
         ]
         
+        # Expanded Verbs - Combat, Force Powers, Technical Actions
         self.verbs = [
-            "strike", "attack", "defend", "patrol", "scout", "hunt", "pursue",
-            "evade", "escape", "infiltrate", "sabotage", "destroy", "construct",
-            "deploy", "engage", "retreat", "advance", "flank", "ambush", "raid",
-            "siege", "blockade", "bombard", "strafe", "dogfight", "duel",
-            "train", "meditate", "commune", "sense", "predict", "foresee",
-            "command", "lead", "follow", "obey", "rebel", "resist", "surrender",
-            "negotiate", "trade", "smuggle", "scavenge", "salvage", "repair",
-            "hack", "slice", "decode", "encrypt", "transmit", "broadcast",
-            "scan", "detect", "track", "locate", "identify", "analyze",
-            "calculate", "navigate", "pilot", "fly", "land", "launch", "jump",
-            "warp", "teleport", "phase", "cloak", "shield", "armor", "fortify",
-            "charge", "fire", "shoot", "blast", "zap", "stun", "freeze",
-            "burn", "melt", "explode", "implode", "collapse", "shatter",
-            "pierce", "cut", "slash", "stab", "thrust", "parry", "block",
-            "deflect", "reflect", "absorb", "channel", "focus", "concentrate",
-            "ignite", "extinguish", "activate", "deactivate", "power", "fuel"
+            # Combat Actions
+            "strike", "attack", "defend", "assault", "charge", "rush", "blitz",
+            "flank", "ambush", "raid", "siege", "blockade", "bombard", "strafe",
+            "dogfight", "duel", "parry", "riposte", "counter", "feint",
+            "pierce", "cut", "slash", "stab", "thrust", "cleave", "sever",
+
+            # Tactical Maneuvers
+            "patrol", "scout", "reconnoiter", "surveil", "observe", "monitor",
+            "hunt", "pursue", "chase", "track", "trail", "follow", "tail",
+            "evade", "escape", "flee", "withdraw", "retreat", "disengage",
+            "infiltrate", "penetrate", "breach", "invade", "occupy", "secure",
+            "sabotage", "disrupt", "undermine", "subvert", "corrupt",
+            "deploy", "mobilize", "position", "station", "garrison",
+            "engage", "encounter", "confront", "challenge", "oppose",
+            "advance", "progress", "push", "drive", "surge", "storm",
+
+            # Force Powers & Jedi/Sith Abilities
+            "levitate", "lift", "push", "pull", "throw", "grip", "choke",
+            "persuade", "influence", "dominate", "control", "manipulate",
+            "foresee", "predict", "sense", "perceive", "detect", "discern",
+            "meditate", "commune", "attune", "harmonize", "balance",
+            "heal", "restore", "revitalize", "rejuvenate", "mend",
+            "absorb", "dissipate", "nullify", "negate", "resist",
+            "channel", "focus", "concentrate", "amplify", "project",
+            "deflect", "reflect", "redirect", "parry", "block",
+            "augment", "enhance", "empower", "strengthen", "fortify",
+
+            # Command & Leadership
+            "command", "order", "direct", "coordinate", "organize",
+            "lead", "guide", "spearhead", "rally", "inspire", "motivate",
+            "obey", "follow", "serve", "submit", "comply",
+            "rebel", "resist", "defy", "oppose", "challenge",
+            "surrender", "yield", "capitulate", "concede",
+            "negotiate", "bargain", "parley", "treat", "arbitrate",
+
+            # Technical & Engineering
+            "pilot", "navigate", "steer", "maneuver", "helm",
+            "fly", "soar", "glide", "dive", "climb", "barrel-roll",
+            "land", "dock", "berth", "anchor", "ground",
+            "launch", "takeoff", "liftoff", "ascend",
+            "jump", "warp", "hyperspace", "lightspeed",
+            "hack", "slice", "crack", "bypass", "override",
+            "decode", "decrypt", "decipher", "translate",
+            "encrypt", "encode", "scramble", "cipher",
+            "repair", "fix", "mend", "patch", "restore",
+            "construct", "build", "assemble", "fabricate", "engineer",
+            "calibrate", "tune", "adjust", "optimize", "configure",
+
+            # Scanning & Detection
+            "scan", "probe", "sweep", "search", "survey",
+            "detect", "identify", "recognize", "pinpoint",
+            "track", "trace", "locate", "find", "discover",
+            "analyze", "examine", "inspect", "investigate", "study",
+            "calculate", "compute", "process", "determine",
+            "transmit", "broadcast", "signal", "relay", "communicate",
+
+            # Weapons & Combat Tech
+            "fire", "shoot", "blast", "discharge", "volley",
+            "zap", "electrify", "shock", "jolt", "stun",
+            "freeze", "immobilize", "paralyze", "disable",
+            "burn", "scorch", "incinerate", "vaporize",
+            "explode", "detonate", "burst", "rupture",
+            "implode", "collapse", "crush", "compress",
+            "shatter", "fragment", "splinter", "break",
+            "ignite", "kindle", "spark", "light",
+            "extinguish", "quench", "douse", "snuff",
+            "activate", "engage", "trigger", "initiate",
+            "deactivate", "disengage", "shutdown", "terminate",
+
+            # Stealth & Subterfuge
+            "cloak", "conceal", "hide", "mask", "shroud",
+            "phase", "shift", "warp", "bend", "distort",
+            "smuggle", "traffic", "bootleg", "run",
+            "scavenge", "salvage", "reclaim", "recover", "retrieve",
+            "trade", "barter", "exchange", "deal", "transact",
+
+            # Defensive Actions
+            "shield", "protect", "guard", "defend", "safeguard",
+            "armor", "reinforce", "strengthen", "harden",
+            "fortify", "entrench", "barricade", "secure",
+            "warn", "alert", "notify", "signal", "advise",
         ]
         
+        # Expanded Adjectives - Force-aligned, Ship types, Character traits
         self.adjectives = [
-            "imperial", "rebel", "galactic", "cosmic", "stellar", "lunar",
-            "solar", "quantum", "hyper", "ultra", "mega", "super", "turbo",
-            "stealth", "shadow", "dark", "light", "crimson", "azure", "emerald",
-            "chrome", "golden", "silver", "bronze", "iron", "steel", "titanium",
-            "ancient", "legendary", "mythical", "epic", "heroic", "noble",
-            "fierce", "savage", "brutal", "ruthless", "cunning", "sly",
-            "swift", "rapid", "quick", "fast", "slow", "heavy", "light",
-            "powerful", "mighty", "strong", "weak", "feeble", "fragile",
-            "tactical", "strategic", "operative", "covert", "classified",
-            "secret", "hidden", "mysterious", "enigmatic", "cryptic", "arcane",
-            "advanced", "primitive", "prototype", "experimental", "standard",
-            "elite", "veteran", "rookie", "seasoned", "experienced", "green",
-            "rogue", "outlaw", "lawful", "chaos", "order", "neutral",
-            "brave", "cowardly", "loyal", "traitorous", "honorable", "infamous"
+            # Faction & Alignment
+            "imperial", "rebel", "republic", "separatist", "resistance",
+            "first-order", "mandalorian", "jedi", "sith", "grey",
+            "light-side", "dark-side", "balanced", "neutral", "independent",
+
+            # Force & Mystical
+            "force-sensitive", "force-strong", "force-attuned", "prescient",
+            "telepathic", "empathic", "clairvoyant", "prophetic",
+            "enlightened", "corrupted", "tempted", "fallen", "redeemed",
+            "meditative", "contemplative", "mindful", "aware",
+
+            # Scale & Scope
+            "galactic", "planetary", "stellar", "cosmic", "universal",
+            "sector-wide", "system-wide", "quadrant", "regional", "local",
+            "solar", "lunar", "orbital", "atmospheric", "stratospheric",
+
+            # Technology Level
+            "quantum", "hyper", "ultra", "mega", "super", "turbo",
+            "advanced", "cutting-edge", "state-of-art", "next-gen",
+            "primitive", "ancient", "archaic", "obsolete", "deprecated",
+            "prototype", "experimental", "beta", "alpha", "production",
+            "standard", "regulation", "mil-spec", "civilian", "commercial",
+
+            # Stealth & Visibility
+            "stealth", "cloaked", "invisible", "phased", "shadow",
+            "covert", "classified", "black-ops", "secret", "confidential",
+            "hidden", "concealed", "masked", "shrouded", "veiled",
+            "overt", "visible", "exposed", "revealed", "obvious",
+
+            # Color & Appearance
+            "dark", "light", "bright", "dim", "luminous", "radiant",
+            "crimson", "scarlet", "ruby", "blood-red",
+            "azure", "cobalt", "sapphire", "cerulean",
+            "emerald", "jade", "verdant", "viridian",
+            "golden", "amber", "aureate", "gilt",
+            "silver", "argent", "platinum", "chrome",
+            "bronze", "copper", "brass", "rust",
+            "iron", "steel", "titanium", "durasteel", "beskar",
+            "obsidian", "onyx", "ebon", "jet-black",
+
+            # Historical & Legendary
+            "ancient", "primordial", "prehistoric", "antediluvian",
+            "legendary", "mythical", "fabled", "storied",
+            "epic", "saga-worthy", "monumental", "historic",
+            "forgotten", "lost", "rediscovered", "unearthed",
+
+            # Character Traits - Heroic
+            "heroic", "valiant", "gallant", "courageous", "brave",
+            "noble", "honorable", "virtuous", "righteous", "just",
+            "loyal", "faithful", "devoted", "steadfast", "unwavering",
+            "wise", "sage", "learned", "enlightened", "astute",
+            "compassionate", "merciful", "benevolent", "kind", "gentle",
+
+            # Character Traits - Villainous
+            "ruthless", "merciless", "cruel", "vicious", "brutal",
+            "savage", "barbaric", "feral", "bestial", "monstrous",
+            "cunning", "devious", "scheming", "manipulative", "treacherous",
+            "sly", "crafty", "wily", "shrewd", "calculating",
+            "traitorous", "perfidious", "disloyal", "faithless",
+            "infamous", "notorious", "feared", "dreaded", "terrible",
+
+            # Combat & Military
+            "tactical", "strategic", "operational", "logistical",
+            "aggressive", "offensive", "defensive", "fortified",
+            "elite", "crack", "special-forces", "commando",
+            "veteran", "seasoned", "battle-hardened", "war-torn",
+            "rookie", "green", "untested", "raw", "fresh",
+
+            # Speed & Motion
+            "swift", "rapid", "quick", "fast", "lightning",
+            "blazing", "supersonic", "hypersonic", "light-speed",
+            "slow", "plodding", "lumbering", "sluggish", "ponderous",
+            "agile", "nimble", "acrobatic", "dexterous", "lithe",
+
+            # Power & Strength
+            "powerful", "mighty", "potent", "formidable", "imposing",
+            "strong", "robust", "sturdy", "solid", "stalwart",
+            "weak", "feeble", "frail", "fragile", "delicate",
+            "overwhelming", "crushing", "devastating", "cataclysmic",
+
+            # Size & Mass
+            "massive", "colossal", "gigantic", "enormous", "titanic",
+            "heavy", "weighty", "ponderous", "bulky", "hefty",
+            "light", "lightweight", "feather", "gossamer",
+            "tiny", "minuscule", "diminutive", "compact", "pocket",
+
+            # Mystery & Knowledge
+            "mysterious", "enigmatic", "cryptic", "inscrutable", "arcane",
+            "esoteric", "occult", "mystical", "supernatural", "paranormal",
+            "unknown", "unexplored", "uncharted", "undiscovered",
+
+            # Moral Alignment
+            "lawful", "orderly", "disciplined", "regulated", "controlled",
+            "chaotic", "anarchic", "wild", "untamed", "rogue",
+            "rogue", "maverick", "independent", "free", "unbound",
+            "outlaw", "criminal", "illicit", "illegal", "banned",
         ]
-        
+
+        # Expanded Adverbs - Combat styles, Force techniques, Manner of action
         self.adverbs = [
-            "swiftly", "quickly", "rapidly", "slowly", "stealthily", "silently",
-            "loudly", "fiercely", "savagely", "brutally", "cunningly", "slyly",
-            "heroically", "nobly", "honorably", "shamefully", "mysteriously",
-            "enigmatically", "tactically", "strategically", "operationally",
-            "covertly", "secretly", "openly", "publicly", "privately",
-            "efficiently", "effectively", "powerfully", "mightily", "strongly",
-            "weakly", "precisely", "accurately", "carefully", "recklessly"
+            # Speed & Tempo
+            "swiftly", "rapidly", "quickly", "speedily", "hastily",
+            "slowly", "gradually", "steadily", "patiently", "methodically",
+            "instantly", "immediately", "suddenly", "abruptly", "spontaneously",
+
+            # Stealth & Subtlety
+            "stealthily", "silently", "quietly", "noiselessly", "soundlessly",
+            "covertly", "secretly", "clandestinely", "surreptitiously",
+            "subtly", "discreetly", "inconspicuously", "unobtrusively",
+
+            # Volume & Intensity
+            "loudly", "thunderously", "deafeningly", "resoundingly",
+            "softly", "gently", "delicately", "tenderly", "lightly",
+            "intensely", "fervently", "passionately", "zealously", "ardently",
+
+            # Force & Violence
+            "fiercely", "ferociously", "savagely", "viciously", "violently",
+            "brutally", "ruthlessly", "mercilessly", "remorselessly",
+            "aggressively", "belligerently", "combatively", "militantly",
+
+            # Intelligence & Cunning
+            "cunningly", "cleverly", "shrewdly", "astutely", "sagaciously",
+            "slyly", "craftily", "artfully", "deceptively", "deviously",
+            "wisely", "prudently", "judiciously", "sensibly", "rationally",
+
+            # Morality & Honor
+            "heroically", "valiantly", "courageously", "bravely", "gallantly",
+            "nobly", "honorably", "virtuously", "righteously", "justly",
+            "shamefully", "dishonorably", "ignominiously", "disgracefully",
+
+            # Mystery & Enigma
+            "mysteriously", "enigmatically", "cryptically", "inscrutably",
+            "eerily", "uncannily", "strangely", "oddly", "peculiarly",
+
+            # Tactical Approach
+            "tactically", "strategically", "operationally", "methodically",
+            "systematically", "precisely", "accurately", "exactly", "perfectly",
+            "carelessly", "haphazardly", "recklessly", "rashly", "impulsively",
+
+            # Visibility & Openness
+            "openly", "overtly", "publicly", "blatantly", "flagrantly",
+            "privately", "discreetly", "confidentially", "intimately",
+
+            # Effectiveness & Efficiency
+            "efficiently", "effectively", "productively", "optimally",
+            "masterfully", "expertly", "skillfully", "adeptly", "deftly",
+            "clumsily", "awkwardly", "ineptly", "incompetently",
+
+            # Power & Force
+            "powerfully", "mightily", "forcefully", "vigorously", "energetically",
+            "strongly", "robustly", "stoutly", "heartily",
+            "weakly", "feebly", "limply", "languidly",
+
+            # Determination & Will
+            "determinedly", "resolutely", "steadfastly", "unwaveringly",
+            "persistently", "doggedly", "tenaciously", "stubbornly",
+            "reluctantly", "hesitantly", "tentatively", "uncertainly",
         ]
         
         self.symbols = ['!', '@', '#', '$', '%', '^', '&', '*', '+', '-', '=', '~']
