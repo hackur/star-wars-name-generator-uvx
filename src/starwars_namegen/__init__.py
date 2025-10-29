@@ -2,12 +2,13 @@
 Star Wars Name Generator
 
 A CLI tool for generating Star Wars-themed multi-word names for servers,
-instances, and other resources.
+instances, and other resources. Educational tool demonstrating modern
+Python packaging with UV/UVX.
 """
 
-__version__ = "0.1.0"
-__author__ = "Claude Code"
-__email__ = "claude@anthropic.com"
+__version__ = "0.2.0"
+__author__ = "Jeremy Sarda"
+__email__ = "jeremy@hackur.io"
 
 from .cli import StarWarsNameGenerator
 
