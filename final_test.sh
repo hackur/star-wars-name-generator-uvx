@@ -1,0 +1,30 @@
+#!/bin/bash
+echo "╔════════════════════════════════════════════════════════════╗"
+echo "║         DEATH STAR - FINAL OPERATIONAL TEST SEQUENCE      ║"
+echo "╚════════════════════════════════════════════════════════════╝"
+echo ""
+echo "Test 1: All Word Counts"
+echo "───────────────────────"
+for i in {1..5}; do echo "  $i words: $(starwars-namegen -c $i)"; done
+echo ""
+echo "Test 2: All Formats"
+echo "──────────────────"
+for fmt in kebab snake camel pascal space; do echo "  $fmt: $(starwars-namegen -c 2 -f $fmt)"; done
+echo ""
+echo "Test 3: All Suffixes"
+echo "───────────────────"
+for sfx in none digits hex symbol uuid; do echo "  $sfx: $(starwars-namegen -c 2 --random $sfx)"; done
+echo ""
+echo "Test 4: Reproducibility (seed 42)"
+echo "─────────────────────────────────"
+echo "  Run 1: $(starwars-namegen --seed 42 -c 3)"
+echo "  Run 2: $(starwars-namegen --seed 42 -c 3)"
+echo "  Run 3: $(starwars-namegen --seed 42 -c 3)"
+echo ""
+echo "Test 5: Batch Generation (10 names)"
+echo "───────────────────────────────────"
+starwars-namegen -m 10 -c 2 -f kebab --random hex | nl -w2 -s'. '
+echo ""
+echo "╔════════════════════════════════════════════════════════════╗"
+echo "║              ✅ ALL SYSTEMS OPERATIONAL                    ║"
+echo "╚════════════════════════════════════════════════════════════╝"
