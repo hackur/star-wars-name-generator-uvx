@@ -350,10 +350,13 @@ class StarWarsNameGenerator:
     def _get_random_word(self, word_type: str) -> str:
         """
         Retrieve random word from tactical vocabulary database.
-        
+
+        Hyphenated vocabulary words (like "millennium-falcon" or "ig-unit")
+        are kept as single units but will be normalized for different formats.
+
         Args:
             word_type: Type of word ("noun", "verb", "adjective", "adverb")
-        
+
         Returns:
             Random word from specified category
         """
@@ -371,35 +374,38 @@ class StarWarsNameGenerator:
     def _apply_grammar(self, word_count: int) -> List[str]:
         """
         Apply tactical grammar rules to generate name components.
-        
+
         Grammar Protocols:
         - 1-word: {noun}
         - 2-word: {adjective} {noun}
         - 3-word: {adjective} {noun} {verb-past}
         - 4-word: {adverb} {adjective} {noun} {verb-past}
         - 5-word: the {adjective} {noun} {adverb} {verb-past}
-        
+
+        Note: Hyphenated vocabulary words (like "millennium-falcon") count as
+        single units here, normalized during formatting.
+
         Args:
             word_count: Number of words to generate (1-5)
-        
+
         Returns:
             List of words forming the name
         """
         if word_count == 1:
             return [self._get_random_word("noun")]
-        
+
         elif word_count == 2:
             adj = self._get_random_word("adjective")
             noun = self._get_random_word("noun")
             return [adj, noun]
-        
+
         elif word_count == 3:
             adj = self._get_random_word("adjective")
             noun = self._get_random_word("noun")
             verb = self._get_random_word("verb")
             past_verb = self._to_past_tense(verb)
             return [adj, noun, past_verb]
-        
+
         elif word_count == 4:
             adv = self._get_random_word("adverb")
             adj = self._get_random_word("adjective")
@@ -407,7 +413,7 @@ class StarWarsNameGenerator:
             verb = self._get_random_word("verb")
             past_verb = self._to_past_tense(verb)
             return [adv, adj, noun, past_verb]
-        
+
         else:  # 5 words
             adj = self._get_random_word("adjective")
             noun = self._get_random_word("noun")
@@ -466,34 +472,24 @@ class StarWarsNameGenerator:
     
     def _normalize_word_for_format(self, word: str, output_format: str) -> str:
         """
-        Normalize hyphenated words for the target output format.
+        Normalize individual word components for the target output format.
 
-        Vocabulary words like "millennium-falcon" need different treatment:
-        - kebab: keep as-is (millennium-falcon)
-        - snake: replace hyphens (millennium_falcon)
-        - camel/pascal: remove hyphens and capitalize segments (millenniumFalcon)
-        - space: replace with spaces (millennium falcon)
+        Since hyphenated words are already split into components by _get_random_word,
+        this just handles basic case formatting for each word segment.
 
         Args:
-            word: Word to normalize (may contain hyphens)
+            word: Single word component
             output_format: Target format
 
         Returns:
             Normalized word
         """
-        if output_format == "kebab":
-            # Hyphens are already the separator, keep as-is
-            return word.lower()
-        elif output_format == "snake":
-            # Replace hyphens with underscores
-            return word.lower().replace("-", "_")
-        elif output_format in ("camel", "pascal"):
-            # Split on hyphens, capitalize each segment, join
-            segments = word.split("-")
-            return "".join(seg.capitalize() for seg in segments)
-        elif output_format == "space":
-            # Replace hyphens with spaces
-            return word.lower().replace("-", " ")
+        # Words are already split by hyphens in _get_random_word,
+        # so we just need basic case handling here
+        word = word.lower()
+
+        if output_format in ("camel", "pascal"):
+            return word.capitalize()
         else:
             return word
 
