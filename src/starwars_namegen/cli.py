@@ -11,6 +11,8 @@ from typing import List, Optional
 import click
 import inflect
 
+from . import __version__
+
 
 class StarWarsNameGenerator:
     """
@@ -684,7 +686,7 @@ class StarWarsNameGenerator:
     default=None,
     help="Random seed for reproducible results."
 )
-@click.version_option(version="0.1.0", prog_name="starwars-namegen")
+@click.version_option(version=__version__, prog_name="starwars-namegen")
 def main(count, format, multiple, suffix_type, seed):
     """
     Generate Star Wars-themed multi-word names for servers, instances, and other resources.
