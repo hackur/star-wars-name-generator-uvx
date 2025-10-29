@@ -425,14 +425,33 @@ class StarWarsNameGenerator:
     def _to_past_tense(self, verb: str) -> str:
         """
         Convert verb to past tense using simplified rules.
-        
+
+        For hyphenated verbs (like "barrel-roll"), converts only the last
+        segment to past tense and rejoins without the hyphen to avoid
+        conflicts with kebab-case formatting.
+
         Args:
             verb: Base verb form
-        
+
         Returns:
             Past tense form of verb
         """
-        # Simple past tense rules (good enough for our tactical purposes)
+        # Handle hyphenated verbs specially to avoid format conflicts
+        if "-" in verb:
+            parts = verb.split("-")
+            # Convert only the last part to past tense
+            last_part = parts[-1]
+            if last_part.endswith('e'):
+                past_last = last_part + 'd'
+            elif last_part.endswith('y') and last_part[-2] not in 'aeiou':
+                past_last = last_part[:-1] + 'ied'
+            else:
+                past_last = last_part + 'ed'
+            # Rejoin WITHOUT hyphen to avoid kebab-case conflicts
+            # "barrel-roll" becomes "barrelrolled"
+            return "".join(parts[:-1]) + past_last
+
+        # Simple past tense rules for non-hyphenated verbs
         if verb.endswith('e'):
             return verb + 'd'
         elif verb.endswith('y') and verb[-2] not in 'aeiou':
@@ -472,26 +491,43 @@ class StarWarsNameGenerator:
     
     def _normalize_word_for_format(self, word: str, output_format: str) -> str:
         """
-        Normalize individual word components for the target output format.
+        Normalize hyphenated vocabulary words for the target output format.
 
-        Since hyphenated words are already split into components by _get_random_word,
-        this just handles basic case formatting for each word segment.
+        Handles hyphenated terms like "millennium-falcon" or "ig-unit":
+        - kebab-case: millennium-falcon (keep hyphens)
+        - snake_case: millennium_falcon (replace with underscores)
+        - camelCase: millenniumFalcon (capitalize segments, join)
+        - PascalCase: MillenniumFalcon (capitalize segments, join)
+        - space: Millennium Falcon (capitalize segments, use spaces)
 
         Args:
-            word: Single word component
+            word: Word to normalize (may contain hyphens)
             output_format: Target format
 
         Returns:
             Normalized word
         """
-        # Words are already split by hyphens in _get_random_word,
-        # so we just need basic case handling here
-        word = word.lower()
+        # Handle hyphenated words - remove/replace internal hyphens
+        if "-" in word:
+            # For all formats, join hyphenated segments to avoid separator conflicts
+            # "millennium-falcon" becomes "millenniumfalcon" (single word)
+            segments = word.split("-")
+            joined = "".join(segments)
 
-        if output_format in ("camel", "pascal"):
+            if output_format == "kebab":
+                return joined.lower()
+            elif output_format == "snake":
+                return joined.lower()
+            elif output_format in ("camel", "pascal", "space"):
+                return joined.capitalize()
+            else:
+                return joined.lower()
+
+        # Non-hyphenated word - simple case handling
+        if output_format in ("camel", "pascal", "space"):
             return word.capitalize()
         else:
-            return word
+            return word.lower()
 
     def _format_output(self, words: List[str], output_format: str, suffix: str) -> str:
         """
@@ -532,7 +568,8 @@ class StarWarsNameGenerator:
             return base + suffix_capitalized
 
         elif output_format == "space":
-            base = " ".join(word.capitalize() for word in words)
+            # normalized_words already have proper capitalization from normalization
+            base = " ".join(normalized_words)
             # For space format, append suffix with space
             return f"{base} {suffix}" if suffix else base
 
